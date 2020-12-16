@@ -52,6 +52,12 @@ public class KombuchaOrderManagerImpl implements KombuchaOrderManager{
 
         log.debug("Process Validation Result for kombuchaOrderId: \"" + kombuchaOrderId + "\" Valid: " + isValid);
 
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         Optional<KombuchaOrder> kombOrderOptional = kombOrderRepository.findById(kombuchaOrderId);
 
         kombOrderOptional.ifPresentOrElse(kombOrder ->{
