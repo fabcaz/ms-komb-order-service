@@ -192,15 +192,16 @@ public class KombuchaOrderManagerImpl implements KombuchaOrderManager{
             }, () -> {
                 log.debug("Order Id \"" + kombuchaOrderId.toString() + "\" Not Found");
             });
-        }
-        if (!found.get()) {
-            try {
-                log.debug("Sleeping for retry");
-                Thread.sleep(100);
-            } catch (Exception e) {
-                // do nothing
+            if (!found.get()) {
+                try {
+                    log.debug("Sleeping for retry");
+                    Thread.sleep(100);
+                } catch (Exception e) {
+                    // do nothing
+                }
             }
         }
+
 
     }
 
