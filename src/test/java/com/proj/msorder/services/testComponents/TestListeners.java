@@ -10,6 +10,7 @@ import com.kombucha.model.inventory.KombuchaInventoryDto;
 import com.kombucha.model.order.*;
 import com.proj.msorder.config.JmsConfig;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.activemq.artemis.jms.client.ActiveMQTextMessage;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
@@ -21,7 +22,7 @@ import javax.jms.TextMessage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class TestListeners {
@@ -59,6 +60,7 @@ public class TestListeners {
     public void allocateOrder(AllocateOrderRequest allocationRequest) {
         KombuchaOrderDto koDto = allocationRequest.getKombuchaOrderDto();
 
+        log.debug("===========AllocateOrderRequest for: "+ koDto.toString());
         AllocationOrderResult.AllocationOrderResultBuilder builder = AllocationOrderResult.builder();
 
         builder.kombuchaOrderDto(allocationRequest.getKombuchaOrderDto());
@@ -78,7 +80,11 @@ public class TestListeners {
                 builder.allocationError(true);
                 break;
         }
-        jmsTemplate.convertAndSend(JmsConfig.ALLOCATE_ORDER_RESPONSE_QUEUE, builder.build());
+        AllocationOrderResult result = builder.build();
+
+        log.debug("===========AllocateOrderRequest result: "+result.toString());
+
+        jmsTemplate.convertAndSend(JmsConfig.ALLOCATE_ORDER_RESPONSE_QUEUE, result);
     }
 
 

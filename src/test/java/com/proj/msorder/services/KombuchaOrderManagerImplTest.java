@@ -8,6 +8,7 @@ import com.proj.msorder.domain.KombuchaOrderStatusEnum;
 import com.proj.msorder.repositories.KombuchaOrderRepository;
 import com.proj.msorder.services.order.KombuchaOrderManager;
 import com.proj.msorder.web.mappers.KombuchaOrderMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,7 +24,7 @@ import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 
-
+@Slf4j
 @SpringBootTest
 class KombuchaOrderManagerImplTest {
 
@@ -175,13 +176,14 @@ class KombuchaOrderManagerImplTest {
     @Test
     @DisplayName("Should attempt to allocate partially allocated Order")
     void testProcessPartiallyAllocatedOrders() {
-        List<KombuchaOrder> incompleteOrders = new ArrayList<>(3);
+        List<KombuchaOrder> incompleteOrders = new ArrayList<>(1);
 
         incompleteOrders.add(kombOrderRepository.save(KombuchaOrder.builder()
                 .customerRef(CASE1_UUID.toString())
                 .orderStatus(KombuchaOrderStatusEnum.PENDING_INVENTORY)
                 .build())
         );
+        log.debug("Order that should no longer be pending: " + incompleteOrders.get(0).toString());
 //        incompleteOrders.add(kombOrderRepository.save(KombuchaOrder.builder()
 //                .customerRef(CASE2_UUID.toString())
 //                .orderStatus(KombuchaOrderStatusEnum.PENDING_INVENTORY)

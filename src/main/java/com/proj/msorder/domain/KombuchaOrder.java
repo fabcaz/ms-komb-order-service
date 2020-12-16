@@ -1,10 +1,7 @@
 package com.proj.msorder.domain;
 
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -14,8 +11,7 @@ import java.sql.Timestamp;
 import java.util.Set;
 import java.util.UUID;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @Entity
 public class KombuchaOrder extends BaseEntity{
