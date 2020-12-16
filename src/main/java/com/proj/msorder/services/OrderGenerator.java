@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
-@Profile("test")
+@Profile("functionalTest")
 @Service
 @Slf4j
 public class OrderGenerator {
