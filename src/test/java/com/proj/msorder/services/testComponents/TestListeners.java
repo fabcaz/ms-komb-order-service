@@ -34,6 +34,11 @@ public class TestListeners {
 
     @JmsListener(destination = JmsConfig.VALIDATE_ORDER_QUEUE)
     public void validateOrder(ValidateOrderRequest validateOrderRequest) {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         KombuchaOrderDto koDto = validateOrderRequest.getKombuchaOrderDto();
 
         Boolean isValid = null;
@@ -58,6 +63,11 @@ public class TestListeners {
 
     @JmsListener(destination = JmsConfig.ALLOCATE_ORDER_QUEUE)
     public void allocateOrder(AllocateOrderRequest allocationRequest) {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         KombuchaOrderDto koDto = allocationRequest.getKombuchaOrderDto();
 
         log.debug("===========AllocateOrderRequest for: "+ koDto.toString());
