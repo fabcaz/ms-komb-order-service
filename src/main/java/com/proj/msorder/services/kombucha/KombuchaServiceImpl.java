@@ -2,10 +2,12 @@ package com.proj.msorder.services.kombucha;
 
 import com.kombucha.model.brewery.KombuchaDto;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -14,12 +16,10 @@ import java.util.UUID;
 
 
 @Slf4j
+@Profile("!serv-discovery")
 @ConfigurationProperties(prefix = "ms.komb-brewery", ignoreUnknownFields = false)
 @Service
 public class KombuchaServiceImpl implements KombuchaService {
-
-    public final static String KOMBUCHA_ID_PATH = "/api/v1/kombucha/";
-    public final static String KOMBUCHA_UPC_PATH = "/api/v1/kombuchaUpc/";
 
     private final RestTemplate restTemplate;
 
@@ -36,12 +36,24 @@ public class KombuchaServiceImpl implements KombuchaService {
 
 
     @Override
-    public Optional<KombuchaDto> getKombuchaById(UUID id) {
-        return Optional.of(restTemplate.getForObject(serviceHost+KOMBUCHA_ID_PATH+id.toString(), KombuchaDto.class));
+    public Optional<KombuchaDto> getKombuchaById(UUID kombId) {
+        ResponseEntity<KombuchaDto> responseKombDto = restTemplate.exchange(serviceHost + KOMBUCHA_ID_PATH,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<KombuchaDto>() {},
+                (Object)kombId);
+        return Optional.ofNullable(responseKombDto.getBody());
+//        return Optional.of(restTemplate.getForObject(serviceHost+KOMBUCHA_ID_PATH+kombId.toString(), KombuchaDto.class));
     }
 
     @Override
-    public Optional<KombuchaDto> getKombuchaByUpc(String upc) {
-        return Optional.of(restTemplate.getForObject(serviceHost+KOMBUCHA_UPC_PATH+upc , KombuchaDto.class));
+    public Optional<KombuchaDto> getKombuchaByUpc(String kombUpc) {
+        ResponseEntity<KombuchaDto> responseKombDto = restTemplate.exchange(serviceHost + KOMBUCHA_UPC_PATH,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<KombuchaDto>() {},
+                (Object)kombUpc);
+        return Optional.ofNullable(responseKombDto.getBody());
+        //return Optional.of(restTemplate.getForObject(serviceHost+KOMBUCHA_UPC_PATH+kombUpc , KombuchaDto.class));
     }
 }
