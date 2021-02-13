@@ -28,6 +28,7 @@ class KombuchaOrderLineMapperImplTest {
 
     public static final String KOMB_1_UPC = "0101234200036";
     public static final UUID KOMB_1_UUID = UUID.fromString("0a818933-087d-47f2-ad83-2f986ed087eb");
+    public static final String KOMB_PATH_UPC = KombuchaService.KOMBUCHA_UPC_PATH.replace("{kombUpc}", "");
 
 
     @Autowired
@@ -59,12 +60,12 @@ class KombuchaOrderLineMapperImplTest {
                 .price(new BigDecimal(4.99))
                 .build();
 
-        wireMockServer.stubFor(get(KombuchaService.KOMBUCHA_UPC_PATH + KOMB_1_UPC)
+        wireMockServer.stubFor(get(KOMB_PATH_UPC+ KOMB_1_UPC)
         .willReturn(okJson(objectMapper.writeValueAsString(testDto))));
 
         KombuchaOrderLineDto dtoWithBreweryInfo = mapper.kombuchaOrderLineToDtoWithBreweryInfo(orderLine);
 
-        verify(1, getRequestedFor(urlEqualTo(KombuchaService.KOMBUCHA_UPC_PATH + KOMB_1_UPC)));
+        verify(1, getRequestedFor(urlEqualTo(KOMB_PATH_UPC + KOMB_1_UPC)));
 
 
         assertEquals(testDto.getUpc(), dtoWithBreweryInfo.getUpc());
