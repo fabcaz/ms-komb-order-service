@@ -9,13 +9,10 @@ import com.kombucha.model.brewery.KombuchaDto;
 import com.kombucha.model.order.KombuchaOrderLineDto;
 import com.proj.msorder.domain.KombuchaOrderLine;
 import com.proj.msorder.services.kombucha.KombuchaService;
-import com.proj.msorder.services.kombucha.KombuchaServiceImpl;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -62,12 +59,12 @@ class KombuchaOrderLineMapperImplTest {
                 .price(new BigDecimal(4.99))
                 .build();
 
-        wireMockServer.stubFor(get(KombuchaServiceImpl.KOMBUCHA_UPC_PATH + KOMB_1_UPC)
+        wireMockServer.stubFor(get(KombuchaService.KOMBUCHA_UPC_PATH + KOMB_1_UPC)
         .willReturn(okJson(objectMapper.writeValueAsString(testDto))));
 
         KombuchaOrderLineDto dtoWithBreweryInfo = mapper.kombuchaOrderLineToDtoWithBreweryInfo(orderLine);
 
-        verify(1, getRequestedFor(urlEqualTo(KombuchaServiceImpl.KOMBUCHA_UPC_PATH + KOMB_1_UPC)));
+        verify(1, getRequestedFor(urlEqualTo(KombuchaService.KOMBUCHA_UPC_PATH + KOMB_1_UPC)));
 
 
         assertEquals(testDto.getUpc(), dtoWithBreweryInfo.getUpc());
