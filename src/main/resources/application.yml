@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: kombucha-order
+  artemis:
+    user: artemis
+    password: simetraehcapa
+  cloud:
+    bootstrap:
+      enabled: true
+  devtools:
+    livereload:
+      port: 35731
+  h2:
+    console:
+      enabled: true
+  zipkin:
+    enabled: false
+
+server:
+  port: 8082
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+logging:
+  level:
+    com:
+      proj:
+        msbrew: debug
+#    org:
+#      springframework: debug
+

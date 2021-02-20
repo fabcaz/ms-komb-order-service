@@ -1,0 +1,44 @@
+spring:
+  cloud:
+    discovery:
+      #This profile shouldn't be used with service discovery
+      enabled: false
+  datasource:
+    hikari:
+      data-source-properties:
+        cachePrepStmts: true
+        prepStmtCacheSize: 250
+        prepStmtCacheSqlLimit: 2048
+        useServerPrepStmts: true
+        useLocalSessionState: true
+        rewriteBatchedStatements: true
+        cacheResultSetMetadata: true
+        cacheServerConfiguration: true
+        elideSetAutoCommits: true
+        maintainTimeStats: false
+      maximum-pool-size: 5
+
+
+
+
+    url: jdbc:mysql://127.0.0.1:3306/komborderservice?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    username: komb_order_service
+    password: qwerty
+  
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: validate
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.MySQL8Dialect
+
+logging:
+  level: 
+    org:
+      hibernate:
+        SQL: debug
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
